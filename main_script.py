@@ -3,12 +3,14 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 import json
 
+from yandexfreetranslate import YandexFreeTranslate
+yt = YandexFreeTranslate()
+# yt = YandexFreeTranslate(api = "web")
+# yt = YandexFreeTranslate(api = "ios")
 #import lxml
 #import re
 
-
 UserAgent().chrome
-
 
 base_url = 'https://api2.myauto.ge/en/products?TypeID=2&ForRent=&Mans=&PriceFrom=600&PriceTo=3000&CurrencyID=1&MileageType=1&Customs=1&Page={}'
 for x in range (1,9):
@@ -22,8 +24,44 @@ for x in range (1,9):
     data=json.loads(str(soup))
     for i in data["data"]["items"]:
         if i['engine_volume']>=500 or i['engine_volume']==0:
-            print(i['order_date'],i['prod_year'],i['client_phone'],i['car_model'],'   ',i['engine_volume'],'   ',i['price_usd'],'   ',i['car_id'])
+            print(" ")
+            print(i['order_date'],"  +",i['client_phone'],"  ",i['prod_year'],'year   ',i['engine_volume'],'ccm   ',int(i['price_usd']),'$   ',i['car_model'],)
+            pic='https://static.my.ge/myauto/photos/{}/thumbs/{}_1.jpg'          
+            pic1=pic.format(i['photo'],i['car_id'])           
+            print(pic1)           
+            print(" ")          
+            try:
+                print(yt.translate("ka", "ru", i['car_desc']))             
+            except:
+                pass
+            print(" ")
+            
+print ("finish!")
 
+
+#mops='https://www.myauto.ge/en/s/motorcycles?vehicleType=2&bargainType=&mansNModels=&priceFrom=600&priceTo=3000&currId=1&mileageType=1&customs=1&sort=1&page=4'
+#request1=requests.get(mops, headers={'User-Agent': UserAgent().chrome})
+#text1=request.content
+#soup1 = BeautifulSoup(text1, 'html.parser')
+#pagination = soup.find_all('a', attrs={'rel'})
+#print (pagination)
+
+
+
+
+
+#<a target="_blank" rel="noopener noreferrer" href="/en/pr/84808903/for-sell-motorcycles-motorcycle-suzuki-gs-500-1993-petrol-tbilisi?offerType=basic">
+#<div class="list-item__thumbnail flex-shrink-0 w-m-200px mb-12px mb-m-0 px-16px px-m-0"><div class="list-item__thumbnail__container">
+#<div class="list-item__thumbnail__items ratio-4-3 w-100"><div class="items"><div class="items__page"><div class="items__image-wrapper">
+#<img class="items__image" src="https://static.my.ge/myauto/photos/0/9/8/0/8/thumbs/84808903_1.jpg?v=0" alt=""></div><div class="items__button">
+#</div></div><div class="items__page"><div class="items__image-wrapper"><img class="items__image" src="https://static.my.ge/myauto/photos/0/9/8/0/8/thumbs/84808903_2.jpg?v=0" alt="">
+#</div><div class="items__button"></div></div><div class="items__page"><div class="items__image-wrapper">
+#<img class="items__image" src="https://static.my.ge/myauto/photos/0/9/8/0/8/thumbs/84808903_3.jpg?v=0" alt=""></div><div class="items__button"></div></div></div></div></div></div></a>
+
+
+
+#2023-01-24 04:41:05 1993 995555311138      500     1400     84808903 0/9/8/0/8
+#<img class="items__image" src="https://static.my.ge/myauto/photos/0/9/8/0/8/thumbs/84808903_1.jpg?v=0" alt="">
 
 #print(request)
 #print(type(data))
