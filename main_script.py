@@ -10,6 +10,7 @@ yt = YandexFreeTranslate()
 #import lxml
 #import re
 
+count=0
 UserAgent().chrome
 
 base_url = 'https://api2.myauto.ge/en/products?TypeID=2&ForRent=&Mans=&PriceFrom=600&PriceTo=3000&CurrencyID=1&MileageType=1&Customs=1&Page={}'
@@ -25,6 +26,8 @@ for x in range (1,9):
     for i in data["data"]["items"]:
         if i['engine_volume']>=500 or i['engine_volume']==0:
             print(" ")
+            count+=1
+            print ('     -======= - ',count,' - =======-    ')
             print(i['order_date'],"  +",i['client_phone'],"  ",i['prod_year'],'year   ',i['engine_volume'],'ccm   ',int(i['price_usd']),'$   ',i['car_model'],)
             pic='https://static.my.ge/myauto/photos/{}/thumbs/{}_1.jpg'          
             pic1=pic.format(i['photo'],i['car_id'])           
